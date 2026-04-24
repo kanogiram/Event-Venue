@@ -1,17 +1,18 @@
 
-
-/* Start LEA JAKUPI */
 <?php
+/* Start LEA JAKUPI */
 $conn = mysqli_connect("localhost", "root", "", "event_venue");
 if (!$conn) { die("Connection failed: " . mysqli_connect_error()); }
+
 
 $testimonials = [
     ["name" => "Sarah Jenkins", "quote" => "The attention to detail was breath-taking. Truly an elite experience!", "stars" => 5],
     ["name" => "Marcus Chen", "quote" => "Professional staff and incredible sound quality. Highly recommended.", "stars" => 5],
-   
 ];
 
 $message = "";
+
+
 if (isset($_POST['book_event'])) {
     $user_id = 1; 
     $service_id = mysqli_real_escape_string($conn, $_POST['service_id']);
@@ -24,7 +25,7 @@ if (isset($_POST['book_event'])) {
         if (mysqli_num_rows($check_result) > 0) {
             $message = "<div style='color: #d9534f; margin-bottom: 20px; font-weight: bold;'>❌ This date is already reserved.</div>";
         } else {
-            $sql = "INSERT INTO bookings (user_id, service_id, event_date, notes) VALUES ('$user_id', '$service_id', '$event_date', '$notes')";
+            $sql = "INSERT INTO bookings (user_id, service_id, event_date, notes, status) VALUES ('$user_id', '$service_id', '$event_date', '$notes', 'pending')";
             if (mysqli_query($conn, $sql)) {
                 $message = "<div style='color: #d4af37; margin-bottom: 20px; font-weight: bold;'>✨ Reservation requested successfully!</div>";
             }
@@ -32,8 +33,20 @@ if (isset($_POST['book_event'])) {
     }
 }
 
+if (isset($_POST['submit_review'])) {
+    $rev_name = mysqli_real_escape_string($conn, $_POST['rev_name']);
+    $rev_rating = intval($_POST['rev_rating']);
+    $rev_comment = mysqli_real_escape_string($conn, $_POST['rev_comment']);
+    if (!empty($rev_name) && !empty($rev_comment)) {
+        // Updated table name to 'comment'
+        mysqli_query($conn, "INSERT INTO comment (name, rating, comment) VALUES ('$rev_name', '$rev_rating', '$rev_comment')");
+    }
+}
+
 $services_result = mysqli_query($conn, "SELECT id, name FROM services");
 $booked_dates_query = mysqli_query($conn, "SELECT event_date FROM bookings ORDER BY event_date ASC LIMIT 5");
+
+$db_reviews = mysqli_query($conn, "SELECT * FROM comment ORDER BY created_at DESC");
 ?>
 
 <!DOCTYPE html>
@@ -110,6 +123,36 @@ $booked_dates_query = mysqli_query($conn, "SELECT event_date FROM bookings ORDER
         </div>
     </div>
 
+    <section class="review-form-section" style="margin-top: 60px;">
+        <div class="section-header">
+            <p class="eyebrow">Share your experience</p>
+            <h2>Leave a Review</h2>
+        </div>
+        <div class="booking-card" style="max-width: 700px; margin: 0 auto;">
+            <form action="ev.php" method="POST">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="rev_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Rating</label>
+                    <select name="rev_rating">
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="1">⭐</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Comment</label>
+                    <textarea name="rev_comment" rows="4" required></textarea>
+                </div>
+                <button type="submit" name="submit_review" class="primary-btn">Submit Review</button>
+            </form>
+        </div>
+    </section>
+
     <section class="booking-guide">
         <div class="section-header">
             <p class="eyebrow">How it works</p>
@@ -142,6 +185,14 @@ $booked_dates_query = mysqli_query($conn, "SELECT event_date FROM bookings ORDER
                         <p><strong>- <?php echo htmlspecialchars($t['name']); ?></strong></p>
                     </div>
                 <?php endforeach; ?>
+
+                <?php while($db_rev = mysqli_fetch_assoc($db_reviews)): ?>
+                    <div class="testimonial-card">
+                        <div style="color: #d4af37; margin-bottom: 10px;"><?php echo str_repeat("⭐", $db_rev['rating']); ?></div>
+                        <p><em>"<?php echo htmlspecialchars($db_rev['comment']); ?>"</em></p>
+                        <p><strong>- <?php echo htmlspecialchars($db_rev['name']); ?></strong></p>
+                    </div>
+                <?php endwhile; ?>
             </div>
             <div class="dashboard-column">
                 <div class="rating-main-card">
@@ -162,5 +213,5 @@ $booked_dates_query = mysqli_query($conn, "SELECT event_date FROM bookings ORDER
 
 <footer class="site-footer"><p>&copy; 2026 Elite Venue. All Rights Reserved.</p></footer>
 </body>
-</html>               
-/* End LEA JAKUPI */
+</html>
+<?php /* End LEA JAKUPI */ ?>
