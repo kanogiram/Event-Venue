@@ -1,19 +1,33 @@
-/*Start LEA JAKUPI*/
-CREATE DATABASE IF NOT EXISTS venue_db;
-USE venue_db;
+/* Start LEA JAKUPI */
+CREATE DATABASE IF NOT EXISTS event_venue;
+USE event_venue;
+
 CREATE TABLE IF NOT EXISTS services (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     price DECIMAL(10,2)
 );
+
 CREATE TABLE IF NOT EXISTS bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     service_id INT NOT NULL,
     event_date DATE NOT NULL,
     notes TEXT,
+    status VARCHAR(50) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-INSERT INTO services (name, price) VALUES ('Wedding Hall', 1200.00), ('Birthday Party', 500.00), ('Corporate Event', 800.00);
 
-/* End LEA JAKUPI*/
+CREATE TABLE IF NOT EXISTS reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    rating INT,
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO services (name, price) VALUES 
+('Wedding Hall', 1200.00), 
+('Birthday Party', 500.00), 
+('Corporate Event', 800.00);
+/* End LEA JAKUPI */
