@@ -406,8 +406,7 @@ body {
 /* END Member 2: Delfina Kukaj */
 
 
-
-/*START Member 3: LEA JAKUPI */
+/* START Member 3: LEA JAKUPI */
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -420,7 +419,6 @@ body {
     margin: auto;
     padding: 20px;
 }
-
 
 .site-header {
     display: flex;
@@ -459,7 +457,6 @@ body {
     font-weight: bold;
 }
 
-
 .booking-grid {
     display: flex;
     gap: 40px;
@@ -486,15 +483,11 @@ body {
     padding: 30px;
     border-radius: 8px;
     border-left: 5px solid #d4af37;
-    border-top: 1px solid #e6d3a3;
-    border-right: 1px solid #e6d3a3;
-    border-bottom: 1px solid #e6d3a3;
+    border: 1px solid #e6d3a3;
+    border-left-width: 5px;
 }
 
-
-.info-item h3,
-.guide-box h3,
-.social-box h3 {
+.info-item h3, .guide-box h3, .social-box h3 {
     color: #d4af37;
     font-family: 'Great Vibes', cursive;
     font-size: 34px;
@@ -502,16 +495,13 @@ body {
     font-weight: 400;
 }
 
-
-.guide-steps,
-.social-links-container {
+.guide-steps, .social-links-container {
     display: flex;
     gap: 20px;
     justify-content: center;
 }
 
-.guide-box,
-.social-box {
+.guide-box, .social-box {
     flex: 1;
     background: #ffffff;
     padding: 40px 20px;
@@ -537,7 +527,6 @@ body {
     font-size: 11px;
 }
 
-
 .form-group {
     margin-bottom: 25px;
 }
@@ -549,9 +538,7 @@ body {
     font-weight: bold;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.form-group input, .form-group select, .form-group textarea {
     width: 100%;
     padding: 15px;
     border: 1px solid #ccc;
@@ -575,7 +562,6 @@ body {
     background: black;
     color: #d4af37;
 }
-
 
 .parallel-layout {
     display: flex;
@@ -630,49 +616,18 @@ body {
     padding: 12px;
 }
 
-.mini-box strong {
-    font-size: 18px;
-    color: #000;
-    display: block;
-}
+.mini-box strong { font-size: 18px; color: #000; display: block; }
+.mini-box span { color: #777; font-size: 10px; text-transform: uppercase; }
 
-.mini-box span {
-    color: #777;
-    font-size: 10px;
-    text-transform: uppercase;
-}
+.section-header { text-align: center; margin: 60px 0 40px; }
+.section-header h2 { font-family: 'Playfair Display', serif; font-size: 36px; }
+.eyebrow { color: #d4af37; font-size: 12px; text-transform: uppercase; letter-spacing: 3px; }
 
-
-.section-header {
-    text-align: center;
-    margin: 60px 0 40px;
-}
-
-.section-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
-}
-
-.eyebrow {
-    color: #d4af37;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-}
-
-.site-footer {
-    text-align: center;
-    padding: 40px;
-    margin-top: 60px;
-    border-top: 2px solid #e6d3a3;
-}
+.site-footer { text-align: center; padding: 40px; margin-top: 60px; border-top: 2px solid #e6d3a3; }
 
 @media (max-width: 768px) {
-
-    .parallel-layout,
-    .booking-grid,
-    .guide-steps,
-    .social-links-container {
+    .parallel-layout, .booking-grid, .guide-steps, .social-links-container {
         flex-direction: column;
-     }}
-     /* END Member 3: LEA JAKUPI*/
+    }
+}
+/* END Member 3: LEA JAKUPI*/
