@@ -1,7 +1,6 @@
-
 <?php
 /* Start LEA JAKUPI */
-$conn = mysqli_connect("localhost", "root", "", "event_venue");
+$conn = mysqli_connect("localhost", "root", "", "venue_db");
 if (!$conn) { die("Connection failed: " . mysqli_connect_error()); }
 
 
@@ -38,7 +37,6 @@ if (isset($_POST['submit_review'])) {
     $rev_rating = intval($_POST['rev_rating']);
     $rev_comment = mysqli_real_escape_string($conn, $_POST['rev_comment']);
     if (!empty($rev_name) && !empty($rev_comment)) {
-        // Updated table name to 'comment'
         mysqli_query($conn, "INSERT INTO comment (name, rating, comment) VALUES ('$rev_name', '$rev_rating', '$rev_comment')");
     }
 }
