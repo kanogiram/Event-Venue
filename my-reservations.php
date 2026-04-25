@@ -1,5 +1,5 @@
 <?php
-// BEGIN Member: Arbenita Shala
+// BEGIN Member 4: ARBENITA SHALA
 
 session_start();
 $conn = mysqli_connect("localhost", "root", "", "venue_db");
@@ -106,7 +106,7 @@ $result = mysqli_query($conn, "
     <p>&copy; 2026 Elite Venue</p>
 </footer>
 
-<!-- END Member: Arbenita Shala -->
+<!-- END Member 4: ARBENITA SHALA-->
 </body>
 </html>
    
