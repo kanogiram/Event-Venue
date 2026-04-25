@@ -1,8 +1,11 @@
 <?php
 /* Start LEA JAKUPI */
-$conn = mysqli_connect("localhost", "root", "", "venue_db");
-if (!$conn) { die("Connection failed: " . mysqli_connect_error()); }
+session_start();
 
+$conn = mysqli_connect("localhost", "root", "", "venue_db");
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 $testimonials = [
     ["name" => "Sarah Jenkins", "quote" => "The attention to detail was breath-taking. Truly an elite experience!", "stars" => 5],
@@ -11,11 +14,8 @@ $testimonials = [
 
 $message = "";
 
-
-session_start();
-
 if (isset($_POST['book_event'])) {
-    $user_id = $_SESSION['user_id'];
+    $user_id = 1;
     $service_id = mysqli_real_escape_string($conn, $_POST['service_id']);
     $event_date = mysqli_real_escape_string($conn, $_POST['event_date']);
     $notes = mysqli_real_escape_string($conn, $_POST['notes']);
@@ -45,7 +45,6 @@ if (isset($_POST['submit_review'])) {
 
 $services_result = mysqli_query($conn, "SELECT id, name FROM services");
 $booked_dates_query = mysqli_query($conn, "SELECT event_date FROM bookings ORDER BY event_date ASC LIMIT 5");
-
 $db_reviews = mysqli_query($conn, "SELECT * FROM comment ORDER BY created_at DESC");
 ?>
 
@@ -56,162 +55,207 @@ $db_reviews = mysqli_query($conn, "SELECT * FROM comment ORDER BY created_at DES
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Venue - Booking</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header class="site-header">
-    <div class="logo">
-        <span class="logo-icon">EV</span>
-        <span class="logo-text">Elite Venue</span>
-    </div>
-    <nav class="main-nav">
-        <a href="index.php">Home</a>
-        <a href="booking.php" class="active">Booking</a>
-        <a href="login.php">Login</a>
-    </nav>
-</header>
-
-<main class="page-one">
-    <section class="section-header">
-        <p class="eyebrow">Reservations</p>
-        <h2>Book Your Unforgettable Moment</h2>
-    </section>
-
-    <div class="booking-grid">
-        <div class="booking-card">
-            <?php echo $message; ?>
-            <form action="booking.php" method="POST">
-                <div class="form-group">
-                    <label>Select Service</label>
-                    <select name="service_id" required>
-                        <option value="">-- Choose a Service --</option>
-                        <?php while($row = mysqli_fetch_assoc($services_result)): ?>
-                            <option value="<?php echo $row['id']; ?>"><?php echo htmlspecialchars($row['name']); ?></option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Date</label>
-                    <input type="date" name="event_date" required min="<?php echo date('Y-m-d'); ?>">
-                </div>
-                <div class="form-group">
-                    <label>Special Notes</label>
-                    <textarea name="notes" rows="6" placeholder="Tell us about your guests..."></textarea>
-                </div>
-                <button type="submit" name="book_event" class="primary-btn">Request Booking</button>
-            </form>
+    <header class="site-header">
+        <div class="logo">
+            <span class="logo-icon">EV</span>
+            <span class="logo-text">Elite Venue</span>
         </div>
 
-        <div class="info-sidebar">
-            <div class="info-item">
-                <h3>📅 Booked Dates</h3>
-                <ul style="list-style: none; padding: 0; font-size: 15px; color: #555;">
-                    <?php if(mysqli_num_rows($booked_dates_query) > 0): ?>
-                        <?php while($date_row = mysqli_fetch_assoc($booked_dates_query)): ?>
-                            <li style="margin-bottom: 8px;">🔴 <?php echo date('M d, Y', strtotime($date_row['event_date'])); ?></li>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <li>🟢 All dates currently available!</li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-            <div class="info-item">
-                <h3>🕒 24/7 Support</h3>
-                <p style="color: #666;">Dedicated event manager assigned to your account.</p>
-            </div>
-        </div>
-    </div>
+        <nav class="main-nav">
+            <a href="index.php">Home</a>
+            <a href="booking.php" class="active">Booking</a>
+        </nav>
 
-    <section class="review-form-section" style="margin-top: 60px;">
-        <div class="section-header">
-            <p class="eyebrow">Share your experience</p>
-            <h2>Leave a Review</h2>
-        </div>
-        <div class="booking-card" style="max-width: 700px; margin: 0 auto;">
-            <form action="booking.php" method="POST">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" name="rev_name" required>
-                </div>
-                <div class="form-group">
-                    <label>Rating</label>
-                    <select name="rev_rating">
-                        <option value="5">⭐⭐⭐⭐⭐</option>
-                        <option value="4">⭐⭐⭐⭐</option>
-                        <option value="3">⭐⭐⭐</option>
-                        <option value="2">⭐⭐</option>
-                        <option value="1">⭐</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Comment</label>
-                    <textarea name="rev_comment" rows="4" required></textarea>
-                </div>
-                <button type="submit" name="submit_review" class="primary-btn">Submit Review</button>
-            </form>
-        </div>
-    </section>
-
-    <section class="booking-guide">
-        <div class="section-header">
-            <p class="eyebrow">How it works</p>
-            <h2>Your Journey to a Perfect Event</h2>
-        </div>
-        <div class="guide-steps">
-            <div class="guide-box"><div class="step-number">01</div><h3>Select Service</h3><p>Choose your premium package.</p></div>
-            <div class="guide-box"><div class="step-number">02</div><h3>Pick a Date</h3><p>Select your vision's date.</p></div>
-            <div class="guide-box"><div class="step-number">03</div><h3>Consultation</h3><p>We contact you in 24h.</p></div>
-        </div>
-    </section>
-
-    <section class="social-section">
-        <div class="section-header"><p class="eyebrow">Stay Connected</p><h2>Follow Our Story</h2></div>
-        <div class="social-links-container">
-            <a href="https://facebook.com" target="_blank" class="social-box"><h3>Facebook</h3><span>Join our community</span></a>
-            <a href="https://instagram.com" target="_blank" class="social-box"><h3>Instagram</h3><span>See our gallery</span></a>
-            <a href="https://pinterest.com" target="_blank" class="social-box"><h3>Pinterest</h3><span>Event inspiration</span></a>
-        </div>
-    </section>
-
-    <section class="testimonials-section">
-        <div class="section-header"><p class="eyebrow">Excellence</p><h2>Trusted by Hundreds</h2></div>
-        <div class="parallel-layout">
-            <div class="testimonials-column">
-                <?php foreach ($testimonials as $t): ?>
-                    <div class="testimonial-card">
-                        <div style="color: #d4af37; margin-bottom: 10px;"><?php echo str_repeat("⭐", $t['stars']); ?></div>
-                        <p><em>"<?php echo htmlspecialchars($t['quote']); ?>"</em></p>
-                        <p><strong>- <?php echo htmlspecialchars($t['name']); ?></strong></p>
+        <!-- BEGIN Member 2: Delfina Kukaj -->
+        <div class="nav-profile">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <div class="profile-bubble">
+                    <div class="profile-avatar">
+                        <?= strtoupper(substr($_SESSION['user_name'], 0, 1)) ?>
                     </div>
-                <?php endforeach; ?>
-
-                <?php while($db_rev = mysqli_fetch_assoc($db_reviews)): ?>
-                    <div class="testimonial-card">
-                        <div style="color: #d4af37; margin-bottom: 10px;"><?php echo str_repeat("⭐", $db_rev['rating']); ?></div>
-                        <p><em>"<?php echo htmlspecialchars($db_rev['comment']); ?>"</em></p>
-                        <p><strong>- <?php echo htmlspecialchars($db_rev['name']); ?></strong></p>
+                    <div class="profile-dropdown">
+                        <p class="profile-name"><?= htmlspecialchars($_SESSION['user_name']) ?></p>
+                        <a href="logout.php" class="logout-link">Log Out</a>
                     </div>
-                <?php endwhile; ?>
-            </div>
-            <div class="dashboard-column">
-                <div class="rating-main-card">
-                    <span style="font-size: 25px;">⭐</span>
-                    <div class="score-display">9.8</div>
-                    <p style="color: #b8962e; font-size: 11px; text-transform: uppercase;">Overall Venue Rating</p>
                 </div>
-                <div class="stats-boxes-grid">
-                    <div class="mini-box"><strong><?php echo rand(45, 60); ?>+</strong><span>Monthly Bookings</span></div>
-                    <div class="mini-box"><strong>24/7</strong><span>Staff Support</span></div>
-                    <div class="mini-box"><strong>< <?php echo rand(8, 14); ?>m</strong><span>Response Time</span></div>
-                    <div class="mini-box"><span style="color: #28a745; font-weight: bold;">✓ 100%</span><span>Verified Reviews</span></div>
+            <?php else: ?>
+                <a href="login.php" class="btn primary-btn">Login</a>
+                <a href="register.php" class="btn ghost-btn">Register</a>
+            <?php endif; ?>
+        </div>
+        <!-- END Member 2: Delfina Kukaj -->
+    </header>
+
+    <main class="page-one">
+        <section class="section-header">
+            <p class="eyebrow">Reservations</p>
+            <h2>Book Your Unforgettable Moment</h2>
+        </section>
+
+        <div class="booking-grid">
+            <div class="booking-card">
+                <?php echo $message; ?>
+                <form action="booking.php" method="POST">
+                    <div class="form-group">
+                        <label>Select Service</label>
+                        <select name="service_id" required>
+                            <option value="">-- Choose a Service --</option>
+                            <?php while ($row = mysqli_fetch_assoc($services_result)): ?>
+                                <option value="<?php echo $row['id']; ?>"><?php echo htmlspecialchars($row['name']); ?></option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Date</label>
+                        <input type="date" name="event_date" required min="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label>Special Notes</label>
+                        <textarea name="notes" rows="6" placeholder="Tell us about your guests..."></textarea>
+                    </div>
+                    <button type="submit" name="book_event" class="primary-btn">Request Booking</button>
+                </form>
+            </div>
+
+            <div class="info-sidebar">
+                <div class="info-item">
+                    <h3>📅 Booked Dates</h3>
+                    <ul style="list-style: none; padding: 0; font-size: 15px; color: #6B5B4D;">
+                        <?php if (mysqli_num_rows($booked_dates_query) > 0): ?>
+                            <?php while ($date_row = mysqli_fetch_assoc($booked_dates_query)): ?>
+                                <li style="margin-bottom: 8px;">🔴 <?php echo date('M d, Y', strtotime($date_row['event_date'])); ?></li>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <li>🟢 All dates currently available!</li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="info-item">
+                    <h3>🕒 24/7 Support</h3>
+                    <p style="color: #6B5B4D;">Dedicated event manager assigned to your account.</p>
                 </div>
             </div>
         </div>
-    </section>
-</main>
 
-<footer class="site-footer"><p>&copy; 2026 Elite Venue. All Rights Reserved.</p></footer>
+        <section class="review-form-section" style="margin-top: 60px;">
+            <div class="section-header">
+                <p class="eyebrow">Share your experience</p>
+                <h2>Leave a Review</h2>
+            </div>
+            <div class="booking-card" style="max-width: 700px; margin: 0 auto;">
+                <form action="booking.php" method="POST">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="rev_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <select name="rev_rating">
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="1">⭐</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Comment</label>
+                        <textarea name="rev_comment" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" name="submit_review" class="primary-btn">Submit Review</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="booking-guide">
+            <div class="section-header">
+                <p class="eyebrow">How it works</p>
+                <h2>Your Journey to a Perfect Event</h2>
+            </div>
+            <div class="guide-steps">
+                <div class="guide-box">
+                    <div class="step-number">01</div>
+                    <h3>Select Service</h3>
+                    <p>Choose your premium package.</p>
+                </div>
+                <div class="guide-box">
+                    <div class="step-number">02</div>
+                    <h3>Pick a Date</h3>
+                    <p>Select your vision's date.</p>
+                </div>
+                <div class="guide-box">
+                    <div class="step-number">03</div>
+                    <h3>Consultation</h3>
+                    <p>We contact you in 24h.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-section">
+            <div class="section-header">
+                <p class="eyebrow">Stay Connected</p>
+                <h2>Follow Our Story</h2>
+            </div>
+            <div class="social-links-container">
+                <a href="https://facebook.com" target="_blank" class="social-box">
+                    <h3>Facebook</h3><span>Join our community</span>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="social-box">
+                    <h3>Instagram</h3><span>See our gallery</span>
+                </a>
+                <a href="https://pinterest.com" target="_blank" class="social-box">
+                    <h3>Pinterest</h3><span>Event inspiration</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="testimonials-section">
+            <div class="section-header">
+                <p class="eyebrow">Excellence</p>
+                <h2>Trusted by Hundreds</h2>
+            </div>
+            <div class="parallel-layout">
+                <div class="testimonials-column">
+                    <?php foreach ($testimonials as $t): ?>
+                        <div class="testimonial-card">
+                            <div style="color: #d4af37; margin-bottom: 10px;"><?php echo str_repeat("⭐", $t['stars']); ?></div>
+                            <p><em>"<?php echo htmlspecialchars($t['quote']); ?>"</em></p>
+                            <p><strong>- <?php echo htmlspecialchars($t['name']); ?></strong></p>
+                        </div>
+                    <?php endforeach; ?>
+
+                    <?php while ($db_rev = mysqli_fetch_assoc($db_reviews)): ?>
+                        <div class="testimonial-card">
+                            <div style="color: #d4af37; margin-bottom: 10px;"><?php echo str_repeat("⭐", $db_rev['rating']); ?></div>
+                            <p><em>"<?php echo htmlspecialchars($db_rev['comment']); ?>"</em></p>
+                            <p><strong>- <?php echo htmlspecialchars($db_rev['name']); ?></strong></p>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+                <div class="dashboard-column">
+                    <div class="rating-main-card">
+                        <span style="font-size: 25px;">⭐</span>
+                        <div class="score-display">9.8</div>
+                        <p style="color: #b8962e; font-size: 11px; text-transform: uppercase;">Overall Venue Rating</p>
+                    </div>
+                    <div class="stats-boxes-grid">
+                        <div class="mini-box"><strong><?php echo rand(45, 60); ?>+</strong><span>Monthly Bookings</span></div>
+                        <div class="mini-box"><strong>24/7</strong><span>Staff Support</span></div>
+                        <div class="mini-box"><strong>&lt; <?php echo rand(8, 14); ?>m</strong><span>Response Time</span></div>
+                        <div class="mini-box"><span style="color: #28a745; font-weight: bold;">✓ 100%</span><span>Verified Reviews</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Elite Venue. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
 <?php /* End LEA JAKUPI */ ?>
