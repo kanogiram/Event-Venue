@@ -15,7 +15,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         <a href="services.php">Services</a>
         <a href="about.php">About</a>
         <a href="contact.php">Contact</a>
-        <a href="my_reservations.php">My Reservations</a>
+        <a href="my-reservations.php">My Reservations</a>
     </nav>
 
     <div class="nav-profile">
