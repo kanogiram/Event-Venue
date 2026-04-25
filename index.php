@@ -37,6 +37,7 @@ $result = mysqli_query($conn, "SELECT * FROM services");
         <nav class="main-nav">
             <a href="index.php" class="active">Home</a>
             <a href="booking.php">Booking</a>
+            <a href="my-reservations.php">My Reservations</a>
         </nav>
         <!--END Member 1: Lorena Zeneli -->
 
