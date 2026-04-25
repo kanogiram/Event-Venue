@@ -1,23 +1,16 @@
--- ========================================================
+CREATE DATABASE IF NOT EXISTS venue_db;
+USE venue_db;
 /* BEGIN Member: Arbenita Shala */
--- Table structure for table `bookings`
--- This table is used for My Reservations page
--- It stores user reservations created from Booking page
 
-CREATE TABLE `reservations` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `user_id` INT,
-  `service_id` INT,
-  `booking_date` DATE,
-  `guests` INT,
-  `notes` TEXT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE bookings (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    user_id INT(11) NOT NULL,
+    service_id INT(11) NOT NULL,
+    event_date DATE NOT NULL,
+    notes TEXT,
+    status VARCHAR(50) DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
 
 /* END Member: Arbenita Shala */
-
-
--- ========================================================
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
