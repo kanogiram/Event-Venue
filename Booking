@@ -2,6 +2,11 @@
 /* Start LEA JAKUPI */
 session_start();
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 $conn = mysqli_connect("localhost", "root", "", "venue_db");
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -50,6 +55,7 @@ $db_reviews = mysqli_query($conn, "SELECT * FROM comment ORDER BY created_at DES
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +63,7 @@ $db_reviews = mysqli_query($conn, "SELECT * FROM comment ORDER BY created_at DES
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
     <header class="site-header">
@@ -257,5 +264,6 @@ $db_reviews = mysqli_query($conn, "SELECT * FROM comment ORDER BY created_at DES
         <p>&copy; 2026 Elite Venue. All Rights Reserved.</p>
     </footer>
 </body>
+
 </html>
 <?php /* End LEA JAKUPI */ ?>
