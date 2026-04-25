@@ -20,12 +20,11 @@ if(isset($_GET['delete'])){
 /* UPDATE */
 if(isset($_POST['update'])){
     $id = $_POST['id'];
-    $date = $_POST['booking_date'];
-    $guests = $_POST['guests'];
+    $date = $_POST['event_date'];
     $notes = $_POST['notes'];
 
     mysqli_query($conn, "UPDATE bookings 
-        SET booking_date='$date', guests='$guests', notes='$notes'
+        SET event_date='$date', notes='$notes'
         WHERE id=$id");
 }
 
@@ -64,10 +63,7 @@ $result = mysqli_query($conn, "
             <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
 
             Date:
-            <input type="date" name="booking_date" value="<?php echo $row['booking_date']; ?>"><br><br>
-
-            Guests:
-            <input type="number" name="guests" value="<?php echo $row['guests']; ?>"><br><br>
+            <input type="date" name="event_date" value="<?php echo $row['event_date']; ?>"><br><br>
 
             Notes:
             <textarea name="notes"><?php echo $row['notes']; ?></textarea><br><br>
@@ -80,6 +76,9 @@ $result = mysqli_query($conn, "
     <?php } ?>
 
 </main>
-<!-- End Member : Arbenita Shala --> 
+    <!-- End Member : Arbenita Shala --> 
+</body>
+</html>
+
 </body>
 </html>
