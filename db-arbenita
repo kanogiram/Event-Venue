@@ -4,7 +4,7 @@
 -- This table is used for My Reservations page
 -- It stores user reservations created from Booking page
 
-CREATE TABLE `bookings` (
+CREATE TABLE `reservations` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_id` INT,
   `service_id` INT,
