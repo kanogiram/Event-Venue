@@ -615,14 +615,47 @@ body {
 
 /* END Member 3: LEA JAKUPI */
 
-/* BEGIN Member 4: ARBENITA SHALA */
+/* BEGIN Member 4: ARBENITA SHALA*/
 
 h2 {
     font-family: 'Playfair Display', serif;
     color: #5A4632;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
+
+.service-card {
+    background: #EDE3D8;
+    border: 1px solid #D4AF37;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: 0.3s;
+}
+
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(212,175,55,0.15);
+}
+
+
+.service-card input,
+.service-card textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #D4AF37;
+    border-radius: 8px;
+    background: #F7F3EE;
+}
+
+
+.service-card label {
+    font-weight: bold;
+    color: #5A4632;
+}
+
 
 .btn.primary-btn {
     background: #D4AF37;
@@ -649,4 +682,4 @@ h2 {
     color: white;
 }
 
-/* END Member 4: ARBENITA SHALA */
+/* END Member 4: ARBENITA SHALA*/
