@@ -1,0 +1,23 @@
+-- ========================================================
+/* BEGIN Member: Arbenita Shala */
+-- Table structure for table `bookings`
+-- This table is used for My Reservations page
+-- It stores user reservations created from Booking page
+
+CREATE TABLE `bookings` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT,
+  `service_id` INT,
+  `booking_date` DATE,
+  `guests` INT,
+  `notes` TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/* END Member: Arbenita Shala */
+
+
+-- ========================================================
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
