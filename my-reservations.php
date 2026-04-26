@@ -11,13 +11,13 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-/* DELETE */
+/
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     mysqli_query($conn, "DELETE FROM bookings WHERE id=$id AND user_id=$user_id");
 }
 
-/* UPDATE */
+
 if (isset($_POST['update'])) {
     $id = $_POST['id'];
     $date = $_POST['event_date'];
@@ -28,7 +28,7 @@ if (isset($_POST['update'])) {
         WHERE id=$id AND user_id=$user_id");
 }
 
-/* SELECT */
+
 $result = mysqli_query($conn, "
     SELECT bookings.*, services.name 
     FROM bookings, services
