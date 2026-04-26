@@ -683,3 +683,42 @@ h2 {
 }
 
 /* END Member 4: ARBENITA SHALA*/
+
+/* BEGIN Member 5: MARIGONA KASTRATI*/
+/*  ADMIN */
+
+.container {
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #2c3e50;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+a.delete-btn {
+    color: white;
+    background-color: red;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+/* END Member 5: MARIGONA KASTRATI*/
